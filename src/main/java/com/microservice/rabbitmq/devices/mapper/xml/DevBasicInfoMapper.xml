@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.microservice.rabbitmq.devices.mapper.DevBasicInfoMapper">
+  <resultMap id="BaseResultMap" type="com.microservice.rabbitmq.devices.entity.DevBasicInfo">
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="file_type" jdbcType="VARCHAR" property="fileType" />
+    <result column="site_id" jdbcType="VARCHAR" property="siteId" />
+    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+    <result column="file_path" jdbcType="VARCHAR" property="filePath" />
+    <result column="file_size" jdbcType="DOUBLE" property="fileSize" />
+    <result column="collect_time" jdbcType="TIMESTAMP" property="collectTime" />
+    <result column="device_start_time" jdbcType="VARCHAR" property="deviceStartTime" />
+    <result column="device_run_time" jdbcType="VARCHAR" property="deviceRunTime" />
+    <result column="device_type" jdbcType="VARCHAR" property="deviceType" />
+    <result column="device_name" jdbcType="VARCHAR" property="deviceName" />
+    <result column="device_verison" jdbcType="VARCHAR" property="deviceVerison" />
+    <result column="device_patch" jdbcType="VARCHAR" property="devicePatch" />
+    <result column="device_status" jdbcType="INTEGER" property="deviceStatus" />
+    <result column="ip_address" jdbcType="VARCHAR" property="ipAddress" />
+    <result column="isbkp" jdbcType="VARCHAR" property="isbkp" />
+    <result column="bkp_board_type" jdbcType="VARCHAR" property="bkpBoardType" />
+    <result column="bkp_pcb_version" jdbcType="VARCHAR" property="bkpPcbVersion" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="license_state" jdbcType="VARCHAR" property="licenseState" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="product_version" jdbcType="VARCHAR" property="productVersion" />
+    <result column="product_serial_no" jdbcType="VARCHAR" property="productSerialNo" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="expired_time" jdbcType="TIMESTAMP" property="expiredTime" />
+    <result column="box_no" jdbcType="VARCHAR" property="boxNo" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, user_id, file_type, site_id, file_name, file_path, file_size, collect_time, device_start_time, 
+    device_run_time, device_type, device_name, device_verison, device_patch, device_status, 
+    ip_address, isbkp, bkp_board_type, bkp_pcb_version, description, license_state, product_name, 
+    product_version, product_serial_no, create_time, expired_time, box_no
+  </sql>
+  <select id="selectByExample" parameterType="com.microservice.rabbitmq.devices.entity.DevBasicInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dev_basic_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.microservice.rabbitmq.devices.entity.DevBasicInfoExample">
+    delete from dev_basic_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.microservice.rabbitmq.devices.entity.DevBasicInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into dev_basic_info (user_id, file_type, site_id, 
+      file_name, file_path, file_size, 
+      collect_time, device_start_time, device_run_time, 
+      device_type, device_name, device_verison, 
+      device_patch, device_status, ip_address, 
+      isbkp, bkp_board_type, bkp_pcb_version, 
+      description, license_state, product_name, 
+      product_version, product_serial_no, create_time, 
+      expired_time, box_no)
+    values (#{userId,jdbcType=VARCHAR}, #{fileType,jdbcType=VARCHAR}, #{siteId,jdbcType=VARCHAR}, 
+      #{fileName,jdbcType=VARCHAR}, #{filePath,jdbcType=VARCHAR}, #{fileSize,jdbcType=DOUBLE}, 
+      #{collectTime,jdbcType=TIMESTAMP}, #{deviceStartTime,jdbcType=VARCHAR}, #{deviceRunTime,jdbcType=VARCHAR}, 
+      #{deviceType,jdbcType=VARCHAR}, #{deviceName,jdbcType=VARCHAR}, #{deviceVerison,jdbcType=VARCHAR}, 
+      #{devicePatch,jdbcType=VARCHAR}, #{deviceStatus,jdbcType=INTEGER}, #{ipAddress,jdbcType=VARCHAR}, 
+      #{isbkp,jdbcType=VARCHAR}, #{bkpBoardType,jdbcType=VARCHAR}, #{bkpPcbVersion,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{licenseState,jdbcType=VARCHAR}, #{productName,jdbcType=VARCHAR}, 
+      #{productVersion,jdbcType=VARCHAR}, #{productSerialNo,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{expiredTime,jdbcType=TIMESTAMP}, #{boxNo,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.microservice.rabbitmq.devices.entity.DevBasicInfo" useGeneratedKeys="true" keyProperty="id">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+      select replace(uuid(),'-','') from dual
+    </selectKey>
+    insert into dev_basic_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      id,
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="fileType != null">
+        file_type,
+      </if>
+      <if test="siteId != null">
+        site_id,
+      </if>
+      <if test="fileName != null">
+        file_name,
+      </if>
+      <if test="filePath != null">
+        file_path,
+      </if>
+      <if test="fileSize != null">
+        file_size,
+      </if>
+      <if test="collectTime != null">
+        collect_time,
+      </if>
+      <if test="deviceStartTime != null">
+        device_start_time,
+      </if>
+      <if test="deviceRunTime != null">
+        device_run_time,
+      </if>
+      <if test="deviceType != null">
+        device_type,
+      </if>
+      <if test="deviceName != null">
+        device_name,
+      </if>
+      <if test="deviceVerison != null">
+        device_verison,
+      </if>
+      <if test="devicePatch != null">
+        device_patch,
+      </if>
+      <if test="deviceStatus != null">
+        device_status,
+      </if>
+      <if test="ipAddress != null">
+        ip_address,
+      </if>
+      <if test="isbkp != null">
+        isbkp,
+      </if>
+      <if test="bkpBoardType != null">
+        bkp_board_type,
+      </if>
+      <if test="bkpPcbVersion != null">
+        bkp_pcb_version,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="licenseState != null">
+        license_state,
+      </if>
+      <if test="productName != null">
+        product_name,
+      </if>
+      <if test="productVersion != null">
+        product_version,
+      </if>
+      <if test="productSerialNo != null">
+        product_serial_no,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="expiredTime != null">
+        expired_time,
+      </if>
+      <if test="boxNo != null">
+        box_no,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{id},
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="fileType != null">
+        #{fileType,jdbcType=VARCHAR},
+      </if>
+      <if test="siteId != null">
+        #{siteId,jdbcType=VARCHAR},
+      </if>
+      <if test="fileName != null">
+        #{fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="filePath != null">
+        #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="fileSize != null">
+        #{fileSize,jdbcType=DOUBLE},
+      </if>
+      <if test="collectTime != null">
+        #{collectTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deviceStartTime != null">
+        #{deviceStartTime,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceRunTime != null">
+        #{deviceRunTime,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceType != null">
+        #{deviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceName != null">
+        #{deviceName,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceVerison != null">
+        #{deviceVerison,jdbcType=VARCHAR},
+      </if>
+      <if test="devicePatch != null">
+        #{devicePatch,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceStatus != null">
+        #{deviceStatus,jdbcType=INTEGER},
+      </if>
+      <if test="ipAddress != null">
+        #{ipAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="isbkp != null">
+        #{isbkp,jdbcType=VARCHAR},
+      </if>
+      <if test="bkpBoardType != null">
+        #{bkpBoardType,jdbcType=VARCHAR},
+      </if>
+      <if test="bkpPcbVersion != null">
+        #{bkpPcbVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="licenseState != null">
+        #{licenseState,jdbcType=VARCHAR},
+      </if>
+      <if test="productName != null">
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productVersion != null">
+        #{productVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="productSerialNo != null">
+        #{productSerialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expiredTime != null">
+        #{expiredTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="boxNo != null">
+        #{boxNo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.microservice.rabbitmq.devices.entity.DevBasicInfoExample" resultType="java.lang.Long">
+    select count(*) from dev_basic_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dev_basic_info
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fileType != null">
+        file_type = #{record.fileType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.siteId != null">
+        site_id = #{record.siteId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fileName != null">
+        file_name = #{record.fileName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.filePath != null">
+        file_path = #{record.filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fileSize != null">
+        file_size = #{record.fileSize,jdbcType=DOUBLE},
+      </if>
+      <if test="record.collectTime != null">
+        collect_time = #{record.collectTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deviceStartTime != null">
+        device_start_time = #{record.deviceStartTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deviceRunTime != null">
+        device_run_time = #{record.deviceRunTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deviceType != null">
+        device_type = #{record.deviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deviceName != null">
+        device_name = #{record.deviceName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deviceVerison != null">
+        device_verison = #{record.deviceVerison,jdbcType=VARCHAR},
+      </if>
+      <if test="record.devicePatch != null">
+        device_patch = #{record.devicePatch,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deviceStatus != null">
+        device_status = #{record.deviceStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.ipAddress != null">
+        ip_address = #{record.ipAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isbkp != null">
+        isbkp = #{record.isbkp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bkpBoardType != null">
+        bkp_board_type = #{record.bkpBoardType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bkpPcbVersion != null">
+        bkp_pcb_version = #{record.bkpPcbVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.licenseState != null">
+        license_state = #{record.licenseState,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productName != null">
+        product_name = #{record.productName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productVersion != null">
+        product_version = #{record.productVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productSerialNo != null">
+        product_serial_no = #{record.productSerialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.expiredTime != null">
+        expired_time = #{record.expiredTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.boxNo != null">
+        box_no = #{record.boxNo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dev_basic_info
+    set id = #{record.id,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=VARCHAR},
+      file_type = #{record.fileType,jdbcType=VARCHAR},
+      site_id = #{record.siteId,jdbcType=VARCHAR},
+      file_name = #{record.fileName,jdbcType=VARCHAR},
+      file_path = #{record.filePath,jdbcType=VARCHAR},
+      file_size = #{record.fileSize,jdbcType=DOUBLE},
+      collect_time = #{record.collectTime,jdbcType=TIMESTAMP},
+      device_start_time = #{record.deviceStartTime,jdbcType=VARCHAR},
+      device_run_time = #{record.deviceRunTime,jdbcType=VARCHAR},
+      device_type = #{record.deviceType,jdbcType=VARCHAR},
+      device_name = #{record.deviceName,jdbcType=VARCHAR},
+      device_verison = #{record.deviceVerison,jdbcType=VARCHAR},
+      device_patch = #{record.devicePatch,jdbcType=VARCHAR},
+      device_status = #{record.deviceStatus,jdbcType=INTEGER},
+      ip_address = #{record.ipAddress,jdbcType=VARCHAR},
+      isbkp = #{record.isbkp,jdbcType=VARCHAR},
+      bkp_board_type = #{record.bkpBoardType,jdbcType=VARCHAR},
+      bkp_pcb_version = #{record.bkpPcbVersion,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      license_state = #{record.licenseState,jdbcType=VARCHAR},
+      product_name = #{record.productName,jdbcType=VARCHAR},
+      product_version = #{record.productVersion,jdbcType=VARCHAR},
+      product_serial_no = #{record.productSerialNo,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      expired_time = #{record.expiredTime,jdbcType=TIMESTAMP},
+      box_no = #{record.boxNo,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

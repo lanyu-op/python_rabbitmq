@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.microservice.rabbitmq.devices.mapper.DevChassisInfoMapper">
+  <resultMap id="BaseResultMap" type="com.microservice.rabbitmq.devices.entity.DevChassisInfo">
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="basicinfo_id" jdbcType="VARCHAR" property="basicinfoId" />
+    <result column="board_id" jdbcType="VARCHAR" property="boardId" />
+    <result column="chassis_type" jdbcType="VARCHAR" property="chassisType" />
+    <result column="chassis_name" jdbcType="VARCHAR" property="chassisName" />
+    <result column="device_type" jdbcType="VARCHAR" property="deviceType" />
+    <result column="total_power" jdbcType="VARCHAR" property="totalPower" />
+    <result column="need_power" jdbcType="VARCHAR" property="needPower" />
+    <result column="remain_power" jdbcType="VARCHAR" property="remainPower" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, basicinfo_id, board_id, chassis_type, chassis_name, device_type, total_power, 
+    need_power, remain_power
+  </sql>
+  <select id="selectByExample" parameterType="com.microservice.rabbitmq.devices.entity.DevChassisInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dev_chassis_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.microservice.rabbitmq.devices.entity.DevChassisInfoExample">
+    delete from dev_chassis_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.microservice.rabbitmq.devices.entity.DevChassisInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into dev_chassis_info (basicinfo_id, board_id, chassis_type, 
+      chassis_name, device_type, total_power, 
+      need_power, remain_power)
+    values (#{basicinfoId,jdbcType=VARCHAR}, #{boardId,jdbcType=VARCHAR}, #{chassisType,jdbcType=VARCHAR}, 
+      #{chassisName,jdbcType=VARCHAR}, #{deviceType,jdbcType=VARCHAR}, #{totalPower,jdbcType=VARCHAR}, 
+      #{needPower,jdbcType=VARCHAR}, #{remainPower,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.microservice.rabbitmq.devices.entity.DevChassisInfo" useGeneratedKeys="true" keyProperty="id">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+      select replace(uuid(),'-','') from dual
+    </selectKey>
+    insert into dev_chassis_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+    id,
+      <if test="basicinfoId != null">
+        basicinfo_id,
+      </if>
+      <if test="boardId != null">
+        board_id,
+      </if>
+      <if test="chassisType != null">
+        chassis_type,
+      </if>
+      <if test="chassisName != null">
+        chassis_name,
+      </if>
+      <if test="deviceType != null">
+        device_type,
+      </if>
+      <if test="totalPower != null">
+        total_power,
+      </if>
+      <if test="needPower != null">
+        need_power,
+      </if>
+      <if test="remainPower != null">
+        remain_power,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+    #{id},
+      <if test="basicinfoId != null">
+        #{basicinfoId,jdbcType=VARCHAR},
+      </if>
+      <if test="boardId != null">
+        #{boardId,jdbcType=VARCHAR},
+      </if>
+      <if test="chassisType != null">
+        #{chassisType,jdbcType=VARCHAR},
+      </if>
+      <if test="chassisName != null">
+        #{chassisName,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceType != null">
+        #{deviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="totalPower != null">
+        #{totalPower,jdbcType=VARCHAR},
+      </if>
+      <if test="needPower != null">
+        #{needPower,jdbcType=VARCHAR},
+      </if>
+      <if test="remainPower != null">
+        #{remainPower,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.microservice.rabbitmq.devices.entity.DevChassisInfoExample" resultType="java.lang.Long">
+    select count(*) from dev_chassis_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dev_chassis_info
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.basicinfoId != null">
+        basicinfo_id = #{record.basicinfoId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.boardId != null">
+        board_id = #{record.boardId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chassisType != null">
+        chassis_type = #{record.chassisType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chassisName != null">
+        chassis_name = #{record.chassisName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deviceType != null">
+        device_type = #{record.deviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalPower != null">
+        total_power = #{record.totalPower,jdbcType=VARCHAR},
+      </if>
+      <if test="record.needPower != null">
+        need_power = #{record.needPower,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remainPower != null">
+        remain_power = #{record.remainPower,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dev_chassis_info
+    set id = #{record.id,jdbcType=VARCHAR},
+      basicinfo_id = #{record.basicinfoId,jdbcType=VARCHAR},
+      board_id = #{record.boardId,jdbcType=VARCHAR},
+      chassis_type = #{record.chassisType,jdbcType=VARCHAR},
+      chassis_name = #{record.chassisName,jdbcType=VARCHAR},
+      device_type = #{record.deviceType,jdbcType=VARCHAR},
+      total_power = #{record.totalPower,jdbcType=VARCHAR},
+      need_power = #{record.needPower,jdbcType=VARCHAR},
+      remain_power = #{record.remainPower,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

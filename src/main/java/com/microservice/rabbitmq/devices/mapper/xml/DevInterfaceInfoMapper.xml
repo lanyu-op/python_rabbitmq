@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.microservice.rabbitmq.devices.mapper.DevInterfaceInfoMapper">
+  <resultMap id="BaseResultMap" type="com.microservice.rabbitmq.devices.entity.DevInterfaceInfo">
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="basicinfo_id" jdbcType="VARCHAR" property="basicinfoId" />
+    <result column="interface_name" jdbcType="VARCHAR" property="interfaceName" />
+    <result column="master_inter_name" jdbcType="VARCHAR" property="masterInterName" />
+    
+    <result column="interface_type" jdbcType="VARCHAR" property="interfaceType" />
+    <result column="interface_slot" jdbcType="VARCHAR" property="interfaceSlot" />
+    <result column="in_uti" jdbcType="VARCHAR" property="inUti" />
+    <result column="out_uti" jdbcType="VARCHAR" property="outUti" />
+    <result column="phy_status" jdbcType="VARCHAR" property="phyStatus" />
+    <result column="protocal_status" jdbcType="VARCHAR" property="protocalStatus" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, basicinfo_id, interface_name, interface_type, interface_slot, in_uti, out_uti, 
+    phy_status, protocal_status
+  </sql>
+  <select id="selectByExample" parameterType="com.microservice.rabbitmq.devices.entity.DevInterfaceInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dev_interface_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.microservice.rabbitmq.devices.entity.DevInterfaceInfoExample">
+    delete from dev_interface_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.microservice.rabbitmq.devices.entity.DevInterfaceInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into dev_interface_info (basicinfo_id, interface_name, interface_type, 
+      interface_slot, in_uti, out_uti, 
+      phy_status, protocal_status)
+    values (#{basicinfoId,jdbcType=VARCHAR}, #{interfaceName,jdbcType=VARCHAR}, #{interfaceType,jdbcType=VARCHAR}, 
+      #{interfaceSlot,jdbcType=VARCHAR}, #{inUti,jdbcType=VARCHAR}, #{outUti,jdbcType=VARCHAR}, 
+      #{phyStatus,jdbcType=VARCHAR}, #{protocalStatus,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.microservice.rabbitmq.devices.entity.DevInterfaceInfo" useGeneratedKeys="true" keyProperty="id">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+      select replace(uuid(),'-','') from dual
+    </selectKey>
+    insert into dev_interface_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+    id,
+      <if test="basicinfoId != null">
+        basicinfo_id,
+      </if>
+      <if test="interfaceName != null">
+        interface_name,
+      </if>
+      <if test="masterInterName != null">
+        master_inter_name,
+      </if>      
+      <if test="interfaceType != null">
+        interface_type,
+      </if>
+      <if test="interfaceSlot != null">
+        interface_slot,
+      </if>
+      <if test="inUti != null">
+        in_uti,
+      </if>
+      <if test="outUti != null">
+        out_uti,
+      </if>
+      <if test="phyStatus != null">
+        phy_status,
+      </if>
+      <if test="protocalStatus != null">
+        protocal_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+    #{id},
+      <if test="basicinfoId != null">
+        #{basicinfoId,jdbcType=VARCHAR},
+      </if>
+      <if test="interfaceName != null">
+        #{interfaceName,jdbcType=VARCHAR},
+      </if>
+      <if test="masterInterName != null">
+        #{masterInterName,jdbcType=VARCHAR},
+      </if>      
+      <if test="interfaceType != null">
+        #{interfaceType,jdbcType=VARCHAR},
+      </if>
+      <if test="interfaceSlot != null">
+        #{interfaceSlot,jdbcType=VARCHAR},
+      </if>
+      <if test="inUti != null">
+        #{inUti,jdbcType=VARCHAR},
+      </if>
+      <if test="outUti != null">
+        #{outUti,jdbcType=VARCHAR},
+      </if>
+      <if test="phyStatus != null">
+        #{phyStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="protocalStatus != null">
+        #{protocalStatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.microservice.rabbitmq.devices.entity.DevInterfaceInfoExample" resultType="java.lang.Long">
+    select count(*) from dev_interface_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dev_interface_info
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.basicinfoId != null">
+        basicinfo_id = #{record.basicinfoId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.interfaceName != null">
+        interface_name = #{record.interfaceName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.interfaceType != null">
+        interface_type = #{record.interfaceType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.interfaceSlot != null">
+        interface_slot = #{record.interfaceSlot,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inUti != null">
+        in_uti = #{record.inUti,jdbcType=VARCHAR},
+      </if>
+      <if test="record.outUti != null">
+        out_uti = #{record.outUti,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phyStatus != null">
+        phy_status = #{record.phyStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.protocalStatus != null">
+        protocal_status = #{record.protocalStatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dev_interface_info
+    set id = #{record.id,jdbcType=VARCHAR},
+      basicinfo_id = #{record.basicinfoId,jdbcType=VARCHAR},
+      interface_name = #{record.interfaceName,jdbcType=VARCHAR},
+      interface_type = #{record.interfaceType,jdbcType=VARCHAR},
+      interface_slot = #{record.interfaceSlot,jdbcType=VARCHAR},
+      in_uti = #{record.inUti,jdbcType=VARCHAR},
+      out_uti = #{record.outUti,jdbcType=VARCHAR},
+      phy_status = #{record.phyStatus,jdbcType=VARCHAR},
+      protocal_status = #{record.protocalStatus,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

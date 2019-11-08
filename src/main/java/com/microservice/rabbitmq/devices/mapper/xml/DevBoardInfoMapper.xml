@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.microservice.rabbitmq.devices.mapper.DevBoardInfoMapper">
+  <resultMap id="BaseResultMap" type="com.microservice.rabbitmq.devices.entity.DevBoardInfo">
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="basic_info_id" jdbcType="VARCHAR" property="basicInfoId" />
+    <result column="chassis_id" jdbcType="VARCHAR" property="chassisId" />
+    <result column="board_type" jdbcType="VARCHAR" property="boardType" />
+    <result column="slot" jdbcType="VARCHAR" property="slot" />
+    <result column="slot_status" jdbcType="INTEGER" property="slotStatus" />
+    <result column="board_name" jdbcType="VARCHAR" property="boardName" />
+    <result column="board_pcb_version" jdbcType="VARCHAR" property="boardPcbVersion" />
+    <result column="cpu_usage_rate" jdbcType="DOUBLE" property="cpuUsageRate" />
+    <result column="mem_usage_rate" jdbcType="DOUBLE" property="memUsageRate" />
+    <result column="mem_used" jdbcType="VARCHAR" property="memUsed" />
+    <result column="mem_total" jdbcType="VARCHAR" property="memTotal" />
+    <result column="sdram" jdbcType="VARCHAR" property="sdram" />
+    <result column="flash" jdbcType="VARCHAR" property="flash" />
+    <result column="nvram" jdbcType="VARCHAR" property="nvram" />
+    <result column="cfcard_mem" jdbcType="VARCHAR" property="cfcardMem" />
+    <result column="board_up_time" jdbcType="VARCHAR" property="boardUpTime" />
+    <result column="user_count" jdbcType="VARCHAR" property="userCount" />
+    <result column="ipv4_user_count" jdbcType="VARCHAR" property="ipv4UserCount" />
+    <result column="ipv6_user_count" jdbcType="VARCHAR" property="ipv6UserCount" />
+    <result column="mac_in_used" jdbcType="VARCHAR" property="macInUsed" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, basic_info_id, chassis_id, board_type, slot, slot_status, board_name, board_pcb_version, 
+    cpu_usage_rate, mem_usage_rate, mem_used, mem_total, sdram, flash, nvram, cfcard_mem, 
+    board_up_time, user_count, ipv4_user_count, ipv6_user_count, mac_in_used
+  </sql>
+  <select id="selectByExample" parameterType="com.microservice.rabbitmq.devices.entity.DevBoardInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dev_board_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.microservice.rabbitmq.devices.entity.DevBoardInfoExample">
+    delete from dev_board_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.microservice.rabbitmq.devices.entity.DevBoardInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into dev_board_info (basic_info_id, chassis_id, board_type, 
+      slot, slot_status, board_name, 
+      board_pcb_version, cpu_usage_rate, mem_usage_rate, 
+      mem_used, mem_total, sdram, 
+      flash, nvram, cfcard_mem, 
+      board_up_time, user_count, ipv4_user_count, 
+      ipv6_user_count, mac_in_used)
+    values (#{basicInfoId,jdbcType=VARCHAR}, #{chassisId,jdbcType=VARCHAR}, #{boardType,jdbcType=VARCHAR}, 
+      #{slot,jdbcType=VARCHAR}, #{slotStatus,jdbcType=INTEGER}, #{boardName,jdbcType=VARCHAR}, 
+      #{boardPcbVersion,jdbcType=VARCHAR}, #{cpuUsageRate,jdbcType=DOUBLE}, #{memUsageRate,jdbcType=DOUBLE}, 
+      #{memUsed,jdbcType=VARCHAR}, #{memTotal,jdbcType=VARCHAR}, #{sdram,jdbcType=VARCHAR}, 
+      #{flash,jdbcType=VARCHAR}, #{nvram,jdbcType=VARCHAR}, #{cfcardMem,jdbcType=VARCHAR}, 
+      #{boardUpTime,jdbcType=VARCHAR}, #{userCount,jdbcType=VARCHAR}, #{ipv4UserCount,jdbcType=VARCHAR}, 
+      #{ipv6UserCount,jdbcType=VARCHAR}, #{macInUsed,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.microservice.rabbitmq.devices.entity.DevBoardInfo" useGeneratedKeys="true" keyProperty="id" >
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+      select replace(uuid(),'-','') from dual
+    </selectKey>
+    insert into dev_board_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+    id,
+      <if test="basicInfoId != null">
+        basic_info_id,
+      </if>
+      <if test="chassisId != null">
+        chassis_id,
+      </if>
+      <if test="boardType != null">
+        board_type,
+      </if>
+      <if test="slot != null">
+        slot,
+      </if>
+      <if test="slotStatus != null">
+        slot_status,
+      </if>
+      <if test="boardName != null">
+        board_name,
+      </if>
+      <if test="boardPcbVersion != null">
+        board_pcb_version,
+      </if>
+      <if test="cpuUsageRate != null">
+        cpu_usage_rate,
+      </if>
+      <if test="memUsageRate != null">
+        mem_usage_rate,
+      </if>
+      <if test="memUsed != null">
+        mem_used,
+      </if>
+      <if test="memTotal != null">
+        mem_total,
+      </if>
+      <if test="sdram != null">
+        sdram,
+      </if>
+      <if test="flash != null">
+        flash,
+      </if>
+      <if test="nvram != null">
+        nvram,
+      </if>
+      <if test="cfcardMem != null">
+        cfcard_mem,
+      </if>
+      <if test="boardUpTime != null">
+        board_up_time,
+      </if>
+      <if test="userCount != null">
+        user_count,
+      </if>
+      <if test="ipv4UserCount != null">
+        ipv4_user_count,
+      </if>
+      <if test="ipv6UserCount != null">
+        ipv6_user_count,
+      </if>
+      <if test="macInUsed != null">
+        mac_in_used,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+    	#{id},
+      <if test="basicInfoId != null">
+        #{basicInfoId,jdbcType=VARCHAR},
+      </if>
+      <if test="chassisId != null">
+        #{chassisId,jdbcType=VARCHAR},
+      </if>
+      <if test="boardType != null">
+        #{boardType,jdbcType=VARCHAR},
+      </if>
+      <if test="slot != null">
+        #{slot,jdbcType=VARCHAR},
+      </if>
+      <if test="slotStatus != null">
+        #{slotStatus,jdbcType=INTEGER},
+      </if>
+      <if test="boardName != null">
+        #{boardName,jdbcType=VARCHAR},
+      </if>
+      <if test="boardPcbVersion != null">
+        #{boardPcbVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="cpuUsageRate != null">
+        #{cpuUsageRate,jdbcType=DOUBLE},
+      </if>
+      <if test="memUsageRate != null">
+        #{memUsageRate,jdbcType=DOUBLE},
+      </if>
+      <if test="memUsed != null">
+        #{memUsed,jdbcType=VARCHAR},
+      </if>
+      <if test="memTotal != null">
+        #{memTotal,jdbcType=VARCHAR},
+      </if>
+      <if test="sdram != null">
+        #{sdram,jdbcType=VARCHAR},
+      </if>
+      <if test="flash != null">
+        #{flash,jdbcType=VARCHAR},
+      </if>
+      <if test="nvram != null">
+        #{nvram,jdbcType=VARCHAR},
+      </if>
+      <if test="cfcardMem != null">
+        #{cfcardMem,jdbcType=VARCHAR},
+      </if>
+      <if test="boardUpTime != null">
+        #{boardUpTime,jdbcType=VARCHAR},
+      </if>
+      <if test="userCount != null">
+        #{userCount,jdbcType=VARCHAR},
+      </if>
+      <if test="ipv4UserCount != null">
+        #{ipv4UserCount,jdbcType=VARCHAR},
+      </if>
+      <if test="ipv6UserCount != null">
+        #{ipv6UserCount,jdbcType=VARCHAR},
+      </if>
+      <if test="macInUsed != null">
+        #{macInUsed,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.microservice.rabbitmq.devices.entity.DevBoardInfoExample" resultType="java.lang.Long">
+    select count(*) from dev_board_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dev_board_info
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.basicInfoId != null">
+        basic_info_id = #{record.basicInfoId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chassisId != null">
+        chassis_id = #{record.chassisId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.boardType != null">
+        board_type = #{record.boardType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.slot != null">
+        slot = #{record.slot,jdbcType=VARCHAR},
+      </if>
+      <if test="record.slotStatus != null">
+        slot_status = #{record.slotStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.boardName != null">
+        board_name = #{record.boardName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.boardPcbVersion != null">
+        board_pcb_version = #{record.boardPcbVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cpuUsageRate != null">
+        cpu_usage_rate = #{record.cpuUsageRate,jdbcType=DOUBLE},
+      </if>
+      <if test="record.memUsageRate != null">
+        mem_usage_rate = #{record.memUsageRate,jdbcType=DOUBLE},
+      </if>
+      <if test="record.memUsed != null">
+        mem_used = #{record.memUsed,jdbcType=VARCHAR},
+      </if>
+      <if test="record.memTotal != null">
+        mem_total = #{record.memTotal,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sdram != null">
+        sdram = #{record.sdram,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flash != null">
+        flash = #{record.flash,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nvram != null">
+        nvram = #{record.nvram,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cfcardMem != null">
+        cfcard_mem = #{record.cfcardMem,jdbcType=VARCHAR},
+      </if>
+      <if test="record.boardUpTime != null">
+        board_up_time = #{record.boardUpTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userCount != null">
+        user_count = #{record.userCount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ipv4UserCount != null">
+        ipv4_user_count = #{record.ipv4UserCount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ipv6UserCount != null">
+        ipv6_user_count = #{record.ipv6UserCount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.macInUsed != null">
+        mac_in_used = #{record.macInUsed,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dev_board_info
+    set id = #{record.id,jdbcType=VARCHAR},
+      basic_info_id = #{record.basicInfoId,jdbcType=VARCHAR},
+      chassis_id = #{record.chassisId,jdbcType=VARCHAR},
+      board_type = #{record.boardType,jdbcType=VARCHAR},
+      slot = #{record.slot,jdbcType=VARCHAR},
+      slot_status = #{record.slotStatus,jdbcType=INTEGER},
+      board_name = #{record.boardName,jdbcType=VARCHAR},
+      board_pcb_version = #{record.boardPcbVersion,jdbcType=VARCHAR},
+      cpu_usage_rate = #{record.cpuUsageRate,jdbcType=DOUBLE},
+      mem_usage_rate = #{record.memUsageRate,jdbcType=DOUBLE},
+      mem_used = #{record.memUsed,jdbcType=VARCHAR},
+      mem_total = #{record.memTotal,jdbcType=VARCHAR},
+      sdram = #{record.sdram,jdbcType=VARCHAR},
+      flash = #{record.flash,jdbcType=VARCHAR},
+      nvram = #{record.nvram,jdbcType=VARCHAR},
+      cfcard_mem = #{record.cfcardMem,jdbcType=VARCHAR},
+      board_up_time = #{record.boardUpTime,jdbcType=VARCHAR},
+      user_count = #{record.userCount,jdbcType=VARCHAR},
+      ipv4_user_count = #{record.ipv4UserCount,jdbcType=VARCHAR},
+      ipv6_user_count = #{record.ipv6UserCount,jdbcType=VARCHAR},
+      mac_in_used = #{record.macInUsed,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

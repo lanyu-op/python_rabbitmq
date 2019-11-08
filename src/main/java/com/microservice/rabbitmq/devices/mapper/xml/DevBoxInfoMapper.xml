@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.microservice.rabbitmq.devices.mapper.DevBoxInfoMapper">
+  <resultMap id="BaseResultMap" type="com.microservice.rabbitmq.devices.entity.DevBoxInfo">
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="box_no" jdbcType="VARCHAR" property="boxNo" />
+    <result column="box_status" jdbcType="INTEGER" property="boxStatus" />
+    <result column="box_detail" jdbcType="VARCHAR" property="boxDetail" />
+    <result column="box_type" jdbcType="VARCHAR" property="boxType" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, box_no, box_status, box_detail, box_type, user_id
+  </sql>
+  <select id="selectByExample" parameterType="com.microservice.rabbitmq.devices.entity.DevBoxInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dev_box_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.microservice.rabbitmq.devices.entity.DevBoxInfoExample">
+    delete from dev_box_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.microservice.rabbitmq.devices.entity.DevBoxInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into dev_box_info (box_no, box_status, box_detail, 
+      box_type, user_id)
+    values (#{boxNo,jdbcType=VARCHAR}, #{boxStatus,jdbcType=INTEGER}, #{boxDetail,jdbcType=VARCHAR}, 
+      #{boxType,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.microservice.rabbitmq.devices.entity.DevBoxInfo" useGeneratedKeys="true" keyProperty="id">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+      select replace(uuid(),'-','') from dual
+    </selectKey>
+    insert into dev_box_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+    	id,
+      <if test="boxNo != null">
+        box_no,
+      </if>
+      <if test="boxStatus != null">
+        box_status,
+      </if>
+      <if test="boxDetail != null">
+        box_detail,
+      </if>
+      <if test="boxType != null">
+        box_type,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+    #{id},
+      <if test="boxNo != null">
+        #{boxNo,jdbcType=VARCHAR},
+      </if>
+      <if test="boxStatus != null">
+        #{boxStatus,jdbcType=INTEGER},
+      </if>
+      <if test="boxDetail != null">
+        #{boxDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="boxType != null">
+        #{boxType,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.microservice.rabbitmq.devices.entity.DevBoxInfoExample" resultType="java.lang.Long">
+    select count(*) from dev_box_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dev_box_info
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.boxNo != null">
+        box_no = #{record.boxNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.boxStatus != null">
+        box_status = #{record.boxStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.boxDetail != null">
+        box_detail = #{record.boxDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.boxType != null">
+        box_type = #{record.boxType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dev_box_info
+    set id = #{record.id,jdbcType=VARCHAR},
+      box_no = #{record.boxNo,jdbcType=VARCHAR},
+      box_status = #{record.boxStatus,jdbcType=INTEGER},
+      box_detail = #{record.boxDetail,jdbcType=VARCHAR},
+      box_type = #{record.boxType,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>
