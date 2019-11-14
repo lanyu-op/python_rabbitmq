@@ -257,8 +257,10 @@ public class DispatchConsumer implements RabbitTemplate.ConfirmCallback{
     private void send(String msgId,JSONObject jsonObect,String mod) {
     	String echoType = jsonObect.getString("Cmd");
         int priority=1;
+        String expiration=String.valueOf(10000);//消息有效期，超过有效期进入私信队列。默认死信队列设置24小时过期。10S后
     	if(CommonUtils.zhengzeSpace(echoType.toString(), "init")) {
     		priority=9;
+    		expiration=String.valueOf(0);//
     	}
     	
         // 封装消息
@@ -267,6 +269,7 @@ public class DispatchConsumer implements RabbitTemplate.ConfirmCallback{
         Message sendmessage = MessageBuilder.withBody(msg.getBytes()).setContentType(MessageProperties.CONTENT_TYPE_JSON)
                 .setContentEncoding("utf-8").setMessageId(msgId)
                 .setPriority(priority)
+                //.setExpiration(expiration)
                 .build();
 		//log.debug(""+"msg:" );
         // 构建回调返回的数据
@@ -286,14 +289,16 @@ public class DispatchConsumer implements RabbitTemplate.ConfirmCallback{
         if (ack) { //消息发送成功
             System.out.println("消息发送确认成功");
         } else {
-            //重试机制
+            //重试机制，如果确认失败，
             //send(orderId); 
+        	log.debug("==[队列路由失败！！！]"+"消息id:" + correlationData.getId());
+        	log.debug("消息发送确认失败:" + cause);
             System.out.println("消息发送确认失败:" + cause);
         }
  
     } 
   
-    @RabbitListener(queues = "collector_queue0")
+    //@RabbitListener(queues = "collector_queue0")
     public void collector_process_direct0(Message message, @Headers Map<String, Object> headers, Channel channel) throws Exception {
     	log.debug("=============[队列处理start!]==================");
     	//Thread.sleep(60*1000*10);
