@@ -31,9 +31,9 @@ docker ps -a 查看容器
 
 docker rm XXX删除容器
 
-2、下载代码
+2、下载代码，下载consul
 
-3、编译运行
+3、运行consul_start.cmd 。编译运行java -jar xxxx.jar
 
 
 # 架构说明：
