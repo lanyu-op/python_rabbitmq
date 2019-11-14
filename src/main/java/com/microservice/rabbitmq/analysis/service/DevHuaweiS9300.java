@@ -19,6 +19,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.microservice.rabbitmq.analysis.impl.Device;
 import com.microservice.rabbitmq.analysis.impl.DeviceBase;
 import com.microservice.rabbitmq.component.CommonUtils;
+import com.microservice.rabbitmq.component.SpinLock;
 import com.microservice.rabbitmq.consumer.DispatchConsumer;
 import com.microservice.rabbitmq.devices.entity.DevBasicInfo;
 import com.microservice.rabbitmq.devices.entity.DevBasicInfoExample;
@@ -43,7 +44,7 @@ public class DevHuaweiS9300 extends DeviceBase implements Device {
 	
 	//@Autowired
 	//EchoDbService EchoDbService;
-	
+	private static SpinLock mLock = new SpinLock();
 	@Autowired
 	DevChassisInfoMapper devChassisInfoMapper;	
 	@Autowired
@@ -144,7 +145,7 @@ public class DevHuaweiS9300 extends DeviceBase implements Device {
 	 }
 	@Override
 	@Transactional
-	public int insertDB(Map<String, Object> map,List<DevBoxInfo> ll) {
+	public int insertDB(Map<String, Object> map,List<DevBoxInfo> ll) throws Exception{
 
 		int flag=0;
 			// TODO Auto-generated method stub

@@ -52,9 +52,12 @@ public class RabbitmqConfig2 {
         return factory;
     }
 	
-    // 采集主队列-入数据库
+    // 采集主队列-路由
     public static final String COLLECTOR_QUEUE = "collector_queue";
 
+    public static final String COLLECTOR_QUEUE0 = "collector_queue0";
+    
+    public static final String COLLECTOR_QUEUE1 = "collector_queue1";
     
     // 采集子队列-短信报警
     public static final String NOTICE_QUEUE_MSG = "notice_queue_msg";
@@ -69,7 +72,9 @@ public class RabbitmqConfig2 {
     private static final String NOTICE_EXCHANGE = "notice_exchange";
     //死信交换机
     private static final String DX_EXCHANGE = "dx_exchange";
-    
+    //采集直连交换机
+    private static final String DIRECT_EXCHANGE0 = "direct_exchange0";
+    private static final String DIRECT_EXCHANGE1 = "direct_exchange1";
     //广播交换机
     private static final String COLLECTOR_EXCHANGE = "collector_exchange";
  
@@ -100,9 +105,35 @@ public class RabbitmqConfig2 {
     // 1.定义采集主队列
     @Bean(name="CollectorQueue")
     public Queue CollectorQueue() {
-    	int bufferedTime = 1000*60*60*24;//消息保存一天，一天后不消费转入死信队列
-        return createBufferedQueue(COLLECTOR_QUEUE,DX_EXCHANGE,"dxRoutingKey", bufferedTime);
+        return new Queue(COLLECTOR_QUEUE,true);
     }
+    
+    @Bean
+    public DirectExchange directExchange0() {
+        return new DirectExchange(DIRECT_EXCHANGE0);
+    }
+    @Bean
+    public DirectExchange directExchange1() {
+        return new DirectExchange(DIRECT_EXCHANGE1);
+    }    
+    @Bean(name="CollectorQueue0")
+    public Queue CollectorQueue0() {
+    	int bufferedTime = 1000*60*60*24;//消息保存一天，一天后不消费转入死信队列
+        return createBufferedQueue(COLLECTOR_QUEUE0,DX_EXCHANGE,"dxRoutingKey", bufferedTime);
+    }
+    @Bean
+    Binding bindingExchangeCollectorQueue0() {
+        return BindingBuilder.bind(CollectorQueue0()).to(directExchange0()).with("collectRoutingKey");
+    }
+    @Bean(name="CollectorQueue1")
+    public Queue CollectorQueue1() {
+    	int bufferedTime = 1000*60*60*24;//消息保存一天，一天后不消费转入死信队列
+        return createBufferedQueue(COLLECTOR_QUEUE1,DX_EXCHANGE,"dxRoutingKey", bufferedTime);
+    }
+    @Bean
+    Binding bindingExchangeCollectorQueue1() {
+        return BindingBuilder.bind(CollectorQueue1()).to(directExchange1()).with("collectRoutingKey");
+    }   
     // 1.定义采集子队列-短信报警
     @Bean(name="NoticeQueueMsg")
     public Queue NoticeQueueMsg() {

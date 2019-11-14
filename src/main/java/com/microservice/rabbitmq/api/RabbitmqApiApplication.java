@@ -16,6 +16,8 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
 
+import com.hazelcast.core.HazelcastInstance;
+
 @EnableDiscoveryClient
 @EnableAutoConfiguration
 @MapperScan("com.microservice.rabbitmq.order.dao")
@@ -45,4 +47,6 @@ public class RabbitmqApiApplication {
         factory.setReadTimeout(5000);
         return factory;
     }
+    
+    
 }

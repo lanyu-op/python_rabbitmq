@@ -512,7 +512,7 @@ echotext_int='''
 	"boxNo":"smbox1",
 	"ip":"192.168.1.100",
 	"devType": "S9300", 
-	"HeadInfo": "init",
+	"HeadInfo": "dev1299434131",
 	"Cmd": "init"
 }
 '''
@@ -522,7 +522,7 @@ echotext1='''
 	"boxNo":"smbox1",
 	"ip":"192.168.1.100",
 	"devType": "S9300", 
-	"HeadInfo": "",
+	"HeadInfo": "dev1299434131",
 	"Cmd": "display  version",
 	"Content": [{
 			"Chassis": "Chassis  1  (Master  Switch)",

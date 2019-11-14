@@ -23,6 +23,6 @@ public interface Device {
 	int insertDB(JSONObject json);
 	
 	//插入数据库
-	int insertDB(Map<String,Object> json,List<DevBoxInfo> ll);
+	int insertDB(Map<String,Object> json,List<DevBoxInfo> ll) throws Exception;
 	
 }

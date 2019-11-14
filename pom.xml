@@ -107,7 +107,11 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.59</version>
         </dependency>
-
+       <dependency>
+            <groupId>com.hazelcast</groupId>
+            <artifactId>hazelcast</artifactId>
+            <version>3.12.4</version>
+        </dependency>
 	</dependencies>
     <!--srping cloud-->
     <dependencyManagement>
